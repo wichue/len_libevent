@@ -33,6 +33,7 @@
 
 	Obsolete and deprecated versions of the functions in buffer.h: provided
 	only for backward compatibility.
+   buffer.h 中的过时和不用的版本：仅提供向后兼容。
  */
 
 
