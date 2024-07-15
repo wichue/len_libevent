@@ -31,10 +31,12 @@
 
   Data structures for bufferevents.  Using these structures may hurt forward
   compatibility with later versions of Libevent: be careful!
+  缓冲区的数据结构。使用这些结构可能会损害与Libevent后续版本的正向兼容性：请小心！
 
   @deprecated Use of bufferevent_struct.h is completely deprecated; these
     structures are only exposed for backward compatibility with programs
     written before Libevent 2.0 that used them.
+	bufferevent_struct.h 的使用已完全弃用；这些结构只公开，以便与使用它们的Libevent 2.0之前编写的程序向后兼容。
  */
 
 #ifdef __cplusplus

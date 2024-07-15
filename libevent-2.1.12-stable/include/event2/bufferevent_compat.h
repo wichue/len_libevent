@@ -38,6 +38,7 @@
 
   This function is deprecated.  Use bufferevent_socket_new and
   bufferevent_set_callbacks instead.
+  此函数已弃用。使用 bufferevent_socket_new 和 bufferevent_set_callbacks 代替。
 
   Libevent provides an abstraction on top of the regular event callbacks.
   This abstraction is called a buffered event.  A buffered event provides
