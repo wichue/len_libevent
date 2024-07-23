@@ -31,6 +31,7 @@
 
   Potentially non-threadsafe versions of the functions in event.h: provided
   only for backwards compatibility.
+  event.h中函数的潜在非线程安全版本：仅为向后兼容性而提供。
 
   In the oldest versions of Libevent, event_base was not a first-class
   structure.  Instead, there was a single event base that every function
@@ -38,8 +39,10 @@
   that didn't take an event_base argument needed to work by manipulating the
   "current" event base.  This could lead to thread-safety issues, and obscure,
   hard-to-diagnose bugs.
+  在最古老的Libevent版本中，event_base不是一级结构。相反，每个函数都有一个单一的事件库。
+  后来，当添加单独的事件库时，不接受event_base参数的旧函数需要通过操纵“当前”事件库来工作。这可能会导致线程安全问题，以及模糊、难以诊断的错误。
 
-  @deprecated All functions in this file are by definition deprecated.
+  @deprecated All functions in this file are by definition deprecated. 根据定义，此文件中的所有函数都已弃用。
  */
 #include <event2/visibility.h>
 

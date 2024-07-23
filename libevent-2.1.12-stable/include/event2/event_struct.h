@@ -31,9 +31,11 @@
 
   Structures used by event.h.  Using these structures directly WILL harm
   forward compatibility: be careful.
+  event.h使用的结构。直接使用这些结构会损害前向兼容性：请小心。
 
   No field declared in this file should be used directly in user code.  Except
   for historical reasons, these fields would not be exposed at all.
+  此文件中声明的任何字段都不应直接在用户代码中使用。除了历史原因，这些领域根本不会暴露出来。
  */
 
 #ifdef __cplusplus
@@ -107,9 +109,9 @@ struct event;
 struct event_callback {
 	TAILQ_ENTRY(event_callback) evcb_active_next;
 	short evcb_flags;
-	ev_uint8_t evcb_pri;	/* smaller numbers are higher priority */
+	ev_uint8_t evcb_pri;	/* smaller numbers are higher priority 数字越小，优先级越高 */
 	ev_uint8_t evcb_closure;
-	/* allows us to adopt for different types of events */
+	/* allows us to adopt for different types of events 允许我们采用不同类型的事件 */
         union {
 		void (*evcb_callback)(evutil_socket_t, short, void *);
 		void (*evcb_selfcb)(struct event_callback *, void *);
@@ -123,7 +125,7 @@ struct event_base;
 struct event {
 	struct event_callback ev_evcallback;
 
-	/* for managing timeouts */
+	/* for managing timeouts 用于管理超时 */
 	union {
 		TAILQ_ENTRY(event) ev_next_with_common_timeout;
 		int min_heap_idx;
@@ -133,7 +135,7 @@ struct event {
 	struct event_base *ev_base;
 
 	union {
-		/* used for io events */
+		/* used for io events 用于io事件 */
 		struct {
 			LIST_ENTRY (event) ev_io_next;
 			struct timeval ev_timeout;
@@ -143,13 +145,13 @@ struct event {
 		struct {
 			LIST_ENTRY (event) ev_signal_next;
 			short ev_ncalls;
-			/* Allows deletes in callback */
+			/* Allows deletes in callback 允许在回调中删除 */
 			short *ev_pncalls;
 		} ev_signal;
 	} ev_;
 
 	short ev_events;
-	short ev_res;		/* result passed to event callback */
+	short ev_res;		/* result passed to event callback 结果传递给事件回调 */
 	struct timeval ev_timeout;
 };
 

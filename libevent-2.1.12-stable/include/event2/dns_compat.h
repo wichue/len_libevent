@@ -31,7 +31,7 @@
 
   Potentially non-threadsafe versions of the functions in dns.h: provided
   only for backwards compatibility.
-
+  dns.h中函数的潜在非线程安全版本：仅为向后兼容性而提供。
 
  */
 
