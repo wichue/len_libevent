@@ -31,6 +31,7 @@
 
   Potentially non-threadsafe versions of the functions in http.h: provided
   only for backwards compatibility.
+  http.h中函数的潜在非线程安全版本仅用于向后兼容性。
 
  */
 

@@ -38,9 +38,11 @@ extern "C" {
 /** @file rpc.h
  *
  * This header files provides basic support for an RPC server and client.
+ * 此头文件为RPC服务器和客户端提供基本支持。
  *
  * To support RPCs in a server, every supported RPC command needs to be
  * defined and registered.
+ * 为了在服务器中支持RPC，需要定义和注册每个受支持的RPC命令。
  *
  * EVRPC_HEADER(SendCommand, Request, Reply);
  *

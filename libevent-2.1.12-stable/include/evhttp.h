@@ -30,11 +30,13 @@
 /** @file evhttp.h
 
   An http implementation subsystem for Libevent.
+  Libevent的http实现子系统。
 
   The <evhttp.h> header is deprecated in Libevent 2.0 and later; please
   use <event2/http.h> instead.  Depending on what functionality you
   need, you may also want to include more of the other <event2/...>
   headers.
+  在Libevent 2.0及更高版本中，<evhttp.h>标头已被弃用；请改用<event2/http.h>。根据您需要的功能，您可能还希望包含更多其他<event2/…>标题。
  */
 
 #include <event.h>

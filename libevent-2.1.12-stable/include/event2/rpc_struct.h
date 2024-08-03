@@ -35,6 +35,7 @@ extern "C" {
 
   Structures used by rpc.h.  Using these structures directly may harm
   forward compatibility: be careful!
+  rpc.h使用的结构。直接使用这些结构可能会损害前向兼容性：小心！
 
  */
 

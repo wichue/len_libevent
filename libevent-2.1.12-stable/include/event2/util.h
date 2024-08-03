@@ -30,6 +30,7 @@
 
   Common convenience functions for cross-platform portability and
   related socket manipulations.
+  跨平台可移植性和相关套接字操作的常见便利功能。
 
  */
 #include <event2/visibility.h>
@@ -76,19 +77,21 @@ extern "C" {
 
 #include <time.h>
 
-/* Some openbsd autoconf versions get the name of this macro wrong. */
+/* Some openbsd autoconf versions get the name of this macro wrong. 某些openbsd autoconf版本错误地使用了此宏的名称。 */
 #if defined(EVENT__SIZEOF_VOID__) && !defined(EVENT__SIZEOF_VOID_P)
 #define EVENT__SIZEOF_VOID_P EVENT__SIZEOF_VOID__
 #endif
 
 /**
- * @name Standard integer types.
+ * @name Standard integer types.    标准整数类型。
  *
  * Integer type definitions for types that are supposed to be defined in the
  * C99-specified stdint.h.  Shamefully, some platforms do not include
  * stdint.h, so we need to replace it.  (If you are on a platform like this,
  * your C headers are now over 10 years out of date.  You should bug them to
  * do something about this.)
+ * 应该在C99指定的stdint.h中定义的类型的整数类型定义。令人遗憾的是，有些平台不包括stdint.h，所以我们需要替换它。
+ * （如果你在这样的平台上，你的C头文件现在已经过时10多年了。你应该让他们做点什么。）
  *
  * We define:
  *
@@ -206,6 +209,8 @@ extern "C" {
  * some systems let you build your software with different off_t sizes
  * at runtime, and so putting in any dependency on off_t would risk API
  * mismatch.
+ * 请注意，我们根据用于构建Libevent的off_t的编译时大小定义ev_off_t，而不是根据off_t当前的大小（例如，我们没有将ev_off_time定义为off_t）。
+ * 我们这样做是因为有些系统允许您在运行时构建具有不同off_t大小的软件，因此对off_t的任何依赖都有API不匹配的风险。
  */
 #ifdef _WIN32
 #define ev_off_t ev_int64_t
@@ -220,18 +225,19 @@ extern "C" {
 #endif
 /**@}*/
 
-/* Limits for integer types.
+/* Limits for integer types.    整数类型的限制。
 
-   We're making two assumptions here:
-     - The compiler does constant folding properly.
-     - The platform does signed arithmetic in two's complement.
+   We're making two assumptions here:   我们在这里做两个假设：
+     - The compiler does constant folding properly. 编译器正确执行常量折叠。
+     - The platform does signed arithmetic in two's complement. 该平台在二进制补码中执行有符号算术。
 */
 
 /**
-   @name Limits for integer types
+   @name Limits for integer types   整数类型的限制。
 
    These macros hold the largest or smallest values possible for the
    ev_[u]int*_t types.
+   这些宏包含ev_[u]int*_t类型可能的最大或最小值。
 
    @{
 */
@@ -266,7 +272,7 @@ extern "C" {
 
 
 /**
-   @name Limits for SIZE_T and SSIZE_T
+   @name Limits for SIZE_T and SSIZE_T  SIZE_T和SSIZE_T的限制
 
    @{
 */
@@ -303,7 +309,8 @@ extern "C" {
 
 /**
  * A type wide enough to hold the output of "socket()" or "accept()".  On
- * Windows, this is an intptr_t; elsewhere, it is an int. */
+ * Windows, this is an intptr_t; elsewhere, it is an int.
+ * 一个足够宽的类型，可以容纳“socket（）”或“accept（）”的输出。在Windows上，这是一个intptr_t；在其他地方，它是一个整数。 */
 #ifdef _WIN32
 #define evutil_socket_t intptr_t
 #else
@@ -312,12 +319,15 @@ extern "C" {
 
 /**
  * Structure to hold information about a monotonic timer
+ * 用于保存单调定时器信息的结构
  *
  * Use this with evutil_configure_monotonic_time() and
  * evutil_gettime_monotonic().
+ * 将其与evutil_configure_monotonic_time（）和evutil_gettime_monotonic（）一起使用。
  *
  * This is an opaque structure; you can allocate one using
  * evutil_monotonic_timer_new().
+ * 这是一个不透明的结构；您可以使用evutil_monotonic_timer_new（）分配一个。
  *
  * @see evutil_monotonic_timer_new(), evutil_monotonic_timer_free(),
  * evutil_configure_monotonic_time(), evutil_gettime_monotonic()
@@ -331,11 +341,11 @@ struct evutil_monotonic_timer
 #define EV_MONOT_PRECISE  1
 #define EV_MONOT_FALLBACK 2
 
-/** Format a date string using RFC 1123 format (used in HTTP).
- * If `tm` is NULL, current system's time will be used.
- * The number of characters written will be returned.
+/** Format a date string using RFC 1123 format (used in HTTP).  使用RFC 1123格式（用于HTTP）格式化日期字符串。
+ * If `tm` is NULL, current system's time will be used. 如果“tm”为NULL，则将使用当前系统的时间。
+ * The number of characters written will be returned.   将返回写入的字符数。
  * One should check if the return value is smaller than `datelen` to check if
- * the result is truncated or not.
+ * the result is truncated or not.  应该检查返回值是否小于“datelen”，以检查结果是否被截断。
  */
 EVENT2_EXPORT_SYMBOL int
 evutil_date_rfc1123(char *date, const size_t datelen, const struct tm *tm);
@@ -344,18 +354,22 @@ evutil_date_rfc1123(char *date, const size_t datelen, const struct tm *tm);
  * evutil_configure_monotonic_time() and evutil_gettime_monotonic()
  * functions.  You must configure the timer with
  * evutil_configure_monotonic_time() before using it.
+ * 为evutil_configure_monotonic_time（）和evutil_gettime_monotonic（）函数分配一个新的结构体evutil_monotonic_timer。
+ * 在使用计时器之前，必须使用evutil_configure_monotonic_time（）配置计时器。
  */
 EVENT2_EXPORT_SYMBOL
 struct evutil_monotonic_timer * evutil_monotonic_timer_new(void);
 
 /** Free a struct evutil_monotonic_timer that was allocated using
  * evutil_monotonic_timer_new().
+ * 释放使用evutil_monotonic_timer_new（）分配的结构体evutil_munotonic_timer。
  */
 EVENT2_EXPORT_SYMBOL
 void evutil_monotonic_timer_free(struct evutil_monotonic_timer *timer);
 
 /** Set up a struct evutil_monotonic_timer; flags can include
  * EV_MONOT_PRECISE and EV_MONOT_FALLBACK.
+ * 设置一个结构体evutil_monotonic_timer；标志可以包括EV_MONOT_PRECISE和EV_MONOT_FALLBACK。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_configure_monotonic_time(struct evutil_monotonic_timer *timer,
@@ -367,69 +381,84 @@ int evutil_configure_monotonic_time(struct evutil_monotonic_timer *timer,
  * based, or relative to any other definite point.  Use it to make reliable
  * measurements of elapsed time between events even when the system time
  * may be changed.
+ * 从以前使用evutil_configure_monotonic_time（）配置的结构体evutil_monotonic_timer查询当前单调时间。
+ * 单调时间保证永远不会反向运行，但不一定是基于纪元的，也不一定是相对于任何其他确定点的。即使系统时间可能发生变化，也可以使用它对事件之间的经过时间进行可靠的测量。
  *
  * It is not safe to use this funtion on the same timer from multiple
- * threads.
+ * threads. 在多个线程的同一计时器上使用此功能是不安全的。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_gettime_monotonic(struct evutil_monotonic_timer *timer,
                              struct timeval *tp);
 
 /** Create two new sockets that are connected to each other.
+ * 创建两个相互连接的新套接字。
 
     On Unix, this simply calls socketpair().  On Windows, it uses the
     loopback network interface on 127.0.0.1, and only
     AF_INET,SOCK_STREAM are supported.
+    在Unix上，这只是调用socketpair（）。在Windows上，它使用127.0.0.1上的环回网络接口，只支持AF_INET、SOCK_STREAM。
 
     (This may fail on some Windows hosts where firewall software has cleverly
     decided to keep 127.0.0.1 from talking to itself.)
+    （在某些Windows主机上，这可能会失败，因为防火墙软件巧妙地决定阻止127.0.0.1与自己通信。）
 
     Parameters and return values are as for socketpair()
+    参数和返回值与socketpair（）相同
 */
 EVENT2_EXPORT_SYMBOL
 int evutil_socketpair(int d, int type, int protocol, evutil_socket_t sv[2]);
 /** Do platform-specific operations as needed to make a socket nonblocking.
+ *  根据需要执行特定于平台的操作，使套接字非阻塞。
 
-    @param sock The socket to make nonblocking
+    @param sock The socket to make nonblocking  使套接字不阻塞
     @return 0 on success, -1 on failure
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_make_socket_nonblocking(evutil_socket_t sock);
 
 /** Do platform-specific operations to make a listener socket reusable.
+ *  执行特定于平台的操作，使侦听器套接字可重用。
 
     Specifically, we want to make sure that another program will be able
     to bind this address right after we've closed the listener.
+    具体来说，我们希望确保在关闭侦听器后，另一个程序能够立即绑定此地址。
 
     This differs from Windows's interpretation of "reusable", which
     allows multiple listeners to bind the same address at the same time.
+    这与Windows对“可重用”的解释不同，后者允许多个侦听器同时绑定同一地址。
 
-    @param sock The socket to make reusable
+    @param sock The socket to make reusable 可复用的socket
     @return 0 on success, -1 on failure
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_make_listen_socket_reuseable(evutil_socket_t sock);
 
 /** Do platform-specific operations to make a listener port reusable.
+ *  执行特定于平台的操作，使侦听器端口可重用。
 
     Specifically, we want to make sure that multiple programs which also
     set the same socket option will be able to bind, listen at the same time.
+    具体来说，我们希望确保也设置了相同套接字选项的多个程序能够同时绑定、监听。
 
     This is a feature available only to Linux 3.9+
+    此功能仅适用于Linux 3.9+
 
-    @param sock The socket to make reusable
+    @param sock The socket to make reusable 可复用的socket
     @return 0 on success, -1 on failure
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_make_listen_socket_reuseable_port(evutil_socket_t sock);
 
 /** Set ipv6 only bind socket option to make listener work only in ipv6 sockets.
+ *  设置仅绑定ipv6套接字选项，使侦听器仅在ipv6套接字中工作。
 
     According to RFC3493 and most Linux distributions, default value for the
     sockets is to work in IPv4-mapped mode. In IPv4-mapped mode, it is not possible
     to bind same port from different IPv4 and IPv6 handlers.
+    根据RFC3493和大多数Linux发行版，套接字的默认值是在IPv4映射模式下工作。在IPv4映射模式下，无法绑定来自不同IPv4和IPv6处理程序的同一端口。
 
-    @param sock The socket to make in ipv6only working mode
+    @param sock The socket to make in ipv6only working mode 仅在ipv6工作模式下创建的套接字
     @return 0 on success, -1 on failure
  */
 EVENT2_EXPORT_SYMBOL
@@ -437,6 +466,7 @@ int evutil_make_listen_socket_ipv6only(evutil_socket_t sock);
 
 /** Do platform-specific operations as needed to close a socket upon a
     successful execution of one of the exec*() functions.
+    根据需要执行特定于平台的操作，以便在成功执行exec*（）函数之一时关闭套接字。
 
     @param sock The socket to be closed
     @return 0 on success, -1 on failure
@@ -446,9 +476,10 @@ int evutil_make_socket_closeonexec(evutil_socket_t sock);
 
 /** Do the platform-specific call needed to close a socket returned from
     socket() or accept().
+    执行关闭从socket（）或accept（）返回的套接字所需的特定于平台的调用。
 
     @param sock The socket to be closed
-    @return 0 on success (whether the operation is supported or not),
+    @return 0 on success (whether the operation is supported or not 是否支持该操作),
             -1 on failure
  */
 EVENT2_EXPORT_SYMBOL
@@ -457,12 +488,14 @@ int evutil_closesocket(evutil_socket_t sock);
 
 /** Do platform-specific operations, if possible, to make a tcp listener
  *  socket defer accept()s until there is data to read.
+ *  如果可能的话，执行特定于平台的操作，使tcp侦听器套接字推迟accept（），直到有数据要读取。
  *  
  *  Not all platforms support this.  You don't want to do this for every
  *  listener socket: only the ones that implement a protocol where the
  *  client transmits before the server needs to respond.
+ *  并非所有平台都支持此功能。你不想对每个侦听器套接字都这样做：只有那些实现了客户端在服务器需要响应之前传输的协议的套接字。
  *
- *  @param sock The listening socket to to make deferred
+ *  @param sock The listening socket to to make deferred    监听插座被推迟
  *  @return 0 on success (whether the operation is supported or not),
  *       -1 on failure
 */ 
@@ -470,40 +503,43 @@ EVENT2_EXPORT_SYMBOL
 int evutil_make_tcp_listen_socket_deferred(evutil_socket_t sock);
 
 #ifdef _WIN32
-/** Return the most recent socket error.  Not idempotent on all platforms. */
+/** Return the most recent socket error.  Not idempotent on all platforms.  返回最近的套接字错误。并非在所有平台上都是幂等的。 */
 #define EVUTIL_SOCKET_ERROR() WSAGetLastError()
-/** Replace the most recent socket error with errcode */
+/** Replace the most recent socket error with errcode   将最近的套接字错误替换为errcode */
 #define EVUTIL_SET_SOCKET_ERROR(errcode)		\
 	do { WSASetLastError(errcode); } while (0)
-/** Return the most recent socket error to occur on sock. */
+/** Return the most recent socket error to occur on sock.   返回socket上发生的最新套接字错误。 */
 EVENT2_EXPORT_SYMBOL
 int evutil_socket_geterror(evutil_socket_t sock);
-/** Convert a socket error to a string. */
+/** Convert a socket error to a string. 将套接字错误转换为字符串。 */
 EVENT2_EXPORT_SYMBOL
 const char *evutil_socket_error_to_string(int errcode);
 #define EVUTIL_INVALID_SOCKET INVALID_SOCKET
 #elif defined(EVENT_IN_DOXYGEN_)
 /**
-   @name Socket error functions
+   @name Socket error functions  套接字错误函数
 
    These functions are needed for making programs compatible between
    Windows and Unix-like platforms.
+   这些功能是使程序在Windows和类Unix平台之间兼容所必需的。
 
    You see, Winsock handles socket errors differently from the rest of
    the world.  Elsewhere, a socket error is like any other error and is
    stored in errno.  But winsock functions require you to retrieve the
    error with a special function, and don't let you use strerror for
    the error codes.  And handling EWOULDBLOCK is ... different.
+   你看，Winsock处理套接字错误的方式与世界其他地方不同。在其他地方，套接字错误与任何其他错误一样，存储在errno中。
+   但是winsock函数要求您使用特殊函数检索错误，并且不允许您对错误代码使用strerror。处理EWOULDBLOCK是。。。不同。
 
    @{
 */
-/** Return the most recent socket error.  Not idempotent on all platforms. */
+/** Return the most recent socket error.  Not idempotent on all platforms. 返回最近的套接字错误。并非在所有平台上都是幂等的。 */
 #define EVUTIL_SOCKET_ERROR() ...
-/** Replace the most recent socket error with errcode */
+/** Replace the most recent socket error with errcode 将最近的套接字错误替换为errcode */
 #define EVUTIL_SET_SOCKET_ERROR(errcode) ...
-/** Return the most recent socket error to occur on sock. */
+/** Return the most recent socket error to occur on sock.   返回socket上发生的最新套接字错误。 */
 #define evutil_socket_geterror(sock) ...
-/** Convert a socket error to a string. */
+/** Convert a socket error to a string.   将套接字错误转换为字符串。 */
 #define evutil_socket_error_to_string(errcode) ...
 #define EVUTIL_INVALID_SOCKET -1
 /**@}*/
@@ -518,10 +554,11 @@ const char *evutil_socket_error_to_string(int errcode);
 
 
 /**
- * @name Manipulation macros for struct timeval.
+ * @name Manipulation macros for struct timeval.   结构timeval的操作宏。
  *
  * We define replacements
  * for timeradd, timersub, timerclear, timercmp, and timerisset.
+ * 我们定义了timeradd、timersub、timerclear、timercmp和timerisset的替换。
  *
  * @{
  */
@@ -557,7 +594,8 @@ const char *evutil_socket_error_to_string(int errcode);
 /**@}*/
 
 /** Return true iff the tvp is related to uvp according to the relational
- * operator cmp.  Recognized values for cmp are ==, <=, <, >=, and >. */
+ * operator cmp.  Recognized values for cmp are ==, <=, <, >=, and >.
+ * 根据关系运算符cmp，如果tvp与uvp相关，则返回true。cmp的公认值为==、<=、<、>=和>。 */
 #define	evutil_timercmp(tvp, uvp, cmp)					\
 	(((tvp)->tv_sec == (uvp)->tv_sec) ?				\
 	 ((tvp)->tv_usec cmp (uvp)->tv_usec) :				\
@@ -569,19 +607,19 @@ const char *evutil_socket_error_to_string(int errcode);
 #define	evutil_timerisset(tvp)	((tvp)->tv_sec || (tvp)->tv_usec)
 #endif
 
-/** Replacement for offsetof on platforms that don't define it. */
+/** Replacement for offsetof on platforms that don't define it.   在没有定义它的平台上替换offsetof。 */
 #ifdef offsetof
 #define evutil_offsetof(type, field) offsetof(type, field)
 #else
 #define evutil_offsetof(type, field) ((off_t)(&((type *)0)->field))
 #endif
 
-/* big-int related functions */
-/** Parse a 64-bit value from a string.  Arguments are as for strtol. */
+/* big-int related functions  big int相关函数 */
+/** Parse a 64-bit value from a string.  Arguments are as for strtol.   从字符串中解析64位值。参数与strtol相同。 */
 EVENT2_EXPORT_SYMBOL
 ev_int64_t evutil_strtoll(const char *s, char **endptr, int base);
 
-/** Replacement for gettimeofday on platforms that lack it. */
+/** Replacement for gettimeofday on platforms that lack it. 在缺乏gettimeofday的平台上取代它。 */
 #ifdef EVENT__HAVE_GETTIMEOFDAY
 #define evutil_gettimeofday(tv, tz) gettimeofday((tv), (tz))
 #else
@@ -592,6 +630,7 @@ int evutil_gettimeofday(struct timeval *tv, struct timezone *tz);
 
 /** Replacement for snprintf to get consistent behavior on platforms for
     which the return value of snprintf does not conform to C99.
+    替换snprintf，以便在snprintf的返回值不符合C99的平台上获得一致的行为。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_snprintf(char *buf, size_t buflen, const char *format, ...)
@@ -601,6 +640,7 @@ int evutil_snprintf(char *buf, size_t buflen, const char *format, ...)
 ;
 /** Replacement for vsnprintf to get consistent behavior on platforms for
     which the return value of snprintf does not conform to C99.
+    替换vsnprintf，以便在snprintf的返回值不符合C99的平台上获得一致的行为。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_vsnprintf(char *buf, size_t buflen, const char *format, va_list ap)
@@ -609,21 +649,23 @@ int evutil_vsnprintf(char *buf, size_t buflen, const char *format, va_list ap)
 #endif
 ;
 
-/** Replacement for inet_ntop for platforms which lack it. */
+/** Replacement for inet_ntop for platforms which lack it.  对于缺少inet_ntop的平台，可以替换它。 */
 EVENT2_EXPORT_SYMBOL
 const char *evutil_inet_ntop(int af, const void *src, char *dst, size_t len);
 /** Variation of inet_pton that also parses IPv6 scopes. Public for
     unit tests. No reason to call this directly.
+    inet_pton的变体，也解析IPv6作用域。公开进行单元测试。没有理由直接这么说。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_inet_pton_scope(int af, const char *src, void *dst,
 	unsigned *indexp);
-/** Replacement for inet_pton for platforms which lack it. */
+/** Replacement for inet_pton for platforms which lack it.  对于缺少inet_pton的平台，可以替换它。 */
 EVENT2_EXPORT_SYMBOL
 int evutil_inet_pton(int af, const char *src, void *dst);
 struct sockaddr;
 
 /** Parse an IPv4 or IPv6 address, with optional port, from a string.
+ *  从字符串中解析具有可选端口的IPv4或IPv6地址。
 
     Recognized formats are:
     - [IPv6Address]:port
@@ -633,15 +675,18 @@ struct sockaddr;
     - IPv4Address
 
     If no port is specified, the port in the output is set to 0.
+    如果未指定端口，则输出中的端口设置为0。
 
-    @param str The string to parse.
+    @param str The string to parse. 要解析的字符串。
     @param out A struct sockaddr to hold the result.  This should probably be
-       a struct sockaddr_storage.
+       a struct sockaddr_storage.   一个用于保存结果的结构体sockaddr。这可能是一个结构体sockaddr_storage。
     @param outlen A pointer to the number of bytes that that 'out' can safely
        hold.  Set to the number of bytes used in 'out' on success.
+       指向“out”可以安全保存的字节数的指针。设置为成功时“out”中使用的字节数。
     @return -1 if the address is not well-formed, if the port is out of range,
        or if out is not large enough to hold the result.  Otherwise returns
        0 on success.
+       如果地址格式不正确、端口超出范围或out不足以容纳结果，则返回-1。否则，成功时返回0。
 */
 EVENT2_EXPORT_SYMBOL
 int evutil_parse_sockaddr_port(const char *str, struct sockaddr *out, int *outlen);
@@ -650,31 +695,36 @@ int evutil_parse_sockaddr_port(const char *str, struct sockaddr *out, int *outle
  * preceeds sa2, or greater than 0 if sa1 follows sa2.  If include_port is
  * true, consider the port as well as the address.  Only implemented for
  * AF_INET and AF_INET6 addresses. The ordering is not guaranteed to remain
- * the same between Libevent versions. */
+ * the same between Libevent versions.
+ * 比较两个sockaddrs；如果它们相等，则返回0；如果sa1在sa2之前，则返回小于0的值；如果sa2在sa1之后，则返回大于0的值。
+ * 如果include_port为true，请考虑端口和地址。仅对AF_INET和AF_INET6地址实现。不能保证Libevent版本之间的顺序保持不变。 */
 EVENT2_EXPORT_SYMBOL
 int evutil_sockaddr_cmp(const struct sockaddr *sa1, const struct sockaddr *sa2,
     int include_port);
 
 /** As strcasecmp, but always compares the characters in locale-independent
     ASCII.  That's useful if you're handling data in ASCII-based protocols.
+    与strcasecmp一样，但始终比较独立于区域设置的ASCII中的字符。如果您在基于ASCII的协议中处理数据，这很有用。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_ascii_strcasecmp(const char *str1, const char *str2);
 /** As strncasecmp, but always compares the characters in locale-independent
     ASCII.  That's useful if you're handling data in ASCII-based protocols.
+    与strncasecmp一样，但始终比较独立于区域设置的ASCII中的字符。如果您在基于ASCII的协议中处理数据，这很有用。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_ascii_strncasecmp(const char *str1, const char *str2, size_t n);
 
 /* Here we define evutil_addrinfo to the native addrinfo type, or redefine it
- * if this system has no getaddrinfo(). */
+ * if this system has no getaddrinfo().
+   在这里，我们将evutil_addrinfo定义为本机addrinfo类型，或者如果此系统没有getaddrinfo（），则重新定义它。 */
 #ifdef EVENT__HAVE_STRUCT_ADDRINFO
 #define evutil_addrinfo addrinfo
 #else
-/** A definition of struct addrinfo for systems that lack it.
+/** A definition of struct addrinfo for systems that lack it.  缺少结构addrinfo的系统的结构addrinfo定义。
 
     (This is just an alias for struct addrinfo if the system defines
-    struct addrinfo.)
+    struct addrinfo.)   （如果系统定义了结构addrinfo，这只是结构addrinfo的别名。）
 */
 struct evutil_addrinfo {
 	int     ai_flags;     /* AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST */
@@ -687,10 +737,10 @@ struct evutil_addrinfo {
 	struct evutil_addrinfo  *ai_next; /* next structure in linked list */
 };
 #endif
-/** @name evutil_getaddrinfo() error codes
+/** @name evutil_getaddrinfo() error codes   evutil_getaddrinfo（）错误代码
 
     These values are possible error codes for evutil_getaddrinfo() and
-    related functions.
+    related functions.  这些值可能是evutil_getaddinfo（）和相关函数的错误代码。
 
     @{
 */
@@ -726,7 +776,8 @@ struct evutil_addrinfo {
 #endif
 /* This test is a bit complicated, since some MS SDKs decide to
  * remove NODATA or redefine it to be the same as NONAME, in a
- * fun interpretation of RFC 2553 and RFC 3493. */
+ * fun interpretation of RFC 2553 and RFC 3493. 
+ * 这个测试有点复杂，因为一些MS SDK决定删除NODATA或将其重新定义为与NONAME相同，这是对RFC 2553和RFC 3493的有趣解释。 */
 #if defined(EAI_NODATA) && defined(EVENT__HAVE_GETADDRINFO) && (!defined(EAI_NONAME) || EAI_NODATA != EAI_NONAME)
 #define EVUTIL_EAI_NODATA EAI_NODATA
 #else
@@ -796,19 +847,20 @@ struct evutil_addrinfo;
 /**
  * This function clones getaddrinfo for systems that don't have it.  For full
  * details, see RFC 3493, section 6.1.
+ * 此函数为没有getaddrinfo的系统克隆getaddrinfo。有关完整详细信息，请参阅RFC 3493第6.1节。
  *
- * Limitations:
+ * Limitations:   局限性
  * - When the system has no getaddrinfo, we fall back to gethostbyname_r or
- *   gethostbyname, with their attendant issues.
- * - The AI_V4MAPPED and AI_ALL flags are not currently implemented.
+ *   gethostbyname, with their attendant issues.   当系统没有getaddrinfo时，我们会退回到gethostbyname_r或gethostbyname，以及随之而来的问题。
+ * - The AI_V4MAPPED and AI_ALL flags are not currently implemented. AI_V4MAPPED和AI_ALL标志目前尚未实现。
  *
- * For a nonblocking variant, see evdns_getaddrinfo.
+ * For a nonblocking variant, see evdns_getaddrinfo.  有关非阻塞变体，请参阅evdns_getaddrinfo。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_getaddrinfo(const char *nodename, const char *servname,
     const struct evutil_addrinfo *hints_in, struct evutil_addrinfo **res);
 
-/** Release storage allocated by evutil_getaddrinfo or evdns_getaddrinfo. */
+/** Release storage allocated by evutil_getaddrinfo or evdns_getaddrinfo.  释放由evutil_getaddrinfo或evdns_getaddrinfo分配的存储空间。 */
 EVENT2_EXPORT_SYMBOL
 void evutil_freeaddrinfo(struct evutil_addrinfo *ai);
 
@@ -816,6 +868,7 @@ EVENT2_EXPORT_SYMBOL
 const char *evutil_gai_strerror(int err);
 
 /** Generate n bytes of secure pseudorandom data, and store them in buf.
+ *  生成n字节的安全伪随机数据，并将其存储在buf中。
  *
  * Current versions of Libevent use an ARC4-based random number generator,
  * seeded using the platform's entropy source (/dev/urandom on Unix-like
@@ -823,6 +876,8 @@ const char *evutil_gai_strerror(int err);
  * should be: ARC4 is a pretty lousy cipher, and the current implementation
  * provides only rudimentary prediction- and backtracking-resistance.  Don't
  * use this for serious cryptographic applications.
+ * 当前版本的Libevent使用基于ARC4的随机数生成器，该生成器使用平台的熵源（类Unix系统上的/dev/urandom；Windows上的CryptGenRandom）播种。
+ * 这实际上并不像它应该的那样安全：ARC4是一个非常糟糕的密码，目前的实现只提供了基本的预测和回溯阻力。不要将其用于严重的加密应用程序。
  */
 EVENT2_EXPORT_SYMBOL
 void evutil_secure_rng_get_bytes(void *buf, size_t n);
@@ -830,10 +885,11 @@ void evutil_secure_rng_get_bytes(void *buf, size_t n);
 /**
  * Seed the secure random number generator if needed, and return 0 on
  * success or -1 on failure.
+ * 如果需要，为安全随机数生成器添加种子，成功时返回0，失败时返回-1。
  *
  * It is okay to call this function more than once; it will still return
  * 0 if the RNG has been successfully seeded and -1 if it can't be
- * seeded.
+ * seeded. 可以多次调用此函数；如果RNG已成功播种，它仍将返回0，如果无法播种，它将返回-1。
  *
  * Ordinarily you don't need to call this function from your own code;
  * Libevent will seed the RNG itself the first time it needs good random
@@ -842,6 +898,8 @@ void evutil_secure_rng_get_bytes(void *buf, size_t n);
  * the capability to seed (by chrooting, or dropping capabilities, or
  * whatever), and you want to make sure that seeding happens before your
  * program loses the ability to do it.
+ * 通常，您不需要从自己的代码中调用此函数；Libevent将在第一次需要好的随机数时为RNG本身播种。
+ * 您只需要在以下情况下调用它：（a）您想仔细检查其中一个种子方法是否成功，或（b）您计划放弃种子功能（通过chrooting、丢弃功能或其他方式），并且您想确保在程序失去种子功能之前进行种子播。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_secure_rng_init(void);
@@ -849,33 +907,39 @@ int evutil_secure_rng_init(void);
 /**
  * Set a filename to use in place of /dev/urandom for seeding the secure
  * PRNG. Return 0 on success, -1 on failure.
+ * 设置一个文件名来代替/dev/urandom为安全PRNG设置种子。成功时返回0，失败时返回-1。
  *
  * Call this function BEFORE calling any other initialization or RNG
  * functions.
+ * 在调用任何其他初始化或RNG函数之前，请先调用此函数。
  *
  * (This string will _NOT_ be copied internally. Do not free it while any
  * user of the secure RNG might be running. Don't pass anything other than a
  * real /dev/...random device file here, or you might lose security.)
+ * （此字符串_NOT_将在内部复制。当安全RNG的任何用户可能正在运行时，不要释放它。不要在此处传递除真实/dev/…随机设备文件以外的任何文件，否则您可能会失去安全性。）
  *
- * This API is unstable, and might change in a future libevent version.
+ * This API is unstable, and might change in a future libevent version. 此API不稳定，可能会在将来的libevent版本中更改。
  */
 EVENT2_EXPORT_SYMBOL
 int evutil_secure_rng_set_urandom_device_file(char *fname);
 
 #if !defined(EVENT__HAVE_ARC4RANDOM) || defined(EVENT__HAVE_ARC4RANDOM_ADDRANDOM)
 /** Seed the random number generator with extra random bytes.
+ *  为随机数生成器添加额外的随机字节。
 
     You should almost never need to call this function; it should be
     sufficient to invoke evutil_secure_rng_init(), or let Libevent take
     care of calling evutil_secure_rng_init() on its own.
+    您几乎不需要调用此函数；调用evutil_secure_ring_init（）就足够了，或者让Libevent自己负责调用evutil.secure_ring.init（）。
 
     If you call this function as a _replacement_ for the regular
     entropy sources, then you need to be sure that your input
     contains a fairly large amount of strong entropy.  Doing so is
     notoriously hard: most people who try get it wrong.  Watch out!
+    如果你将此函数称为常规熵源的_replacement_，那么你需要确保你的输入包含相当大的强熵。众所周知，这样做很难：大多数试图犯错的人。小心！
 
-    @param dat a buffer full of a strong source of random numbers
-    @param datlen the number of bytes to read from datlen
+    @param dat a buffer full of a strong source of random numbers 充满强随机数源的缓冲区
+    @param datlen the number of bytes to read from datlen   从datlen读取的字节数
  */
 EVENT2_EXPORT_SYMBOL
 void evutil_secure_rng_add_bytes(const char *dat, size_t datlen);

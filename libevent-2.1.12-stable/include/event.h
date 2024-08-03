@@ -30,11 +30,13 @@
 /** @file event.h
 
   A library for writing event-driven network servers.
+  用于编写事件驱动网络服务器的库。
 
   The <event.h> header is deprecated in Libevent 2.0 and later; please
   use <event2/event.h> instead.  Depending on what functionality you
   need, you may also want to include more of the other event2/
   headers.
+  在Libevent 2.0及更高版本中，<event.h>标头已被弃用；请改用<event2/event.h>。根据您需要的功能，您可能还希望包含更多其他event2/标头。
  */
 
 #ifdef __cplusplus

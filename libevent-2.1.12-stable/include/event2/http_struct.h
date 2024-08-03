@@ -31,6 +31,7 @@
 
   Data structures for http.  Using these structures may hurt forward
   compatibility with later versions of Libevent: be careful!
+  http的数据结构。使用这些结构可能会损害与更高版本的Libevent的前向兼容性：小心！
 
  */
 

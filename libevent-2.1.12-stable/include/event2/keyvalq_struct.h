@@ -31,14 +31,14 @@
 extern "C" {
 #endif
 
-/* Fix so that people don't have to run with <sys/queue.h> */
-/* XXXX This code is duplicated with event_struct.h */
+/* Fix so that people don't have to run with <sys/queue.h> 修复了人们不必使用<sys/queue.h>运行的问题 */
+/* XXXX This code is duplicated with event_struct.h 此代码与event_struct.h重复。 */
 #ifndef TAILQ_ENTRY
 #define EVENT_DEFINED_TQENTRY_
 #define TAILQ_ENTRY(type)						\
 struct {								\
-	struct type *tqe_next;	/* next element */			\
-	struct type **tqe_prev;	/* address of previous next element */	\
+	struct type *tqe_next;	/* next element 下一个元素 */			\
+	struct type **tqe_prev;	/* address of previous next element 上一个下一个元素的地址 */	\
 }
 #endif /* !TAILQ_ENTRY */
 
@@ -54,6 +54,7 @@ struct name {					\
 /*
  * Key-Value pairs.  Can be used for HTTP headers but also for
  * query argument parsing.
+ * 键值对。可用于HTTP标头，也可用于查询参数解析。
  */
 struct evkeyval {
 	TAILQ_ENTRY(evkeyval) next;
@@ -64,7 +65,7 @@ struct evkeyval {
 
 TAILQ_HEAD (evkeyvalq, evkeyval);
 
-/* XXXX This code is duplicated with event_struct.h */
+/* XXXX This code is duplicated with event_struct.h 此代码与event_struct.h重复 */
 #ifdef EVENT_DEFINED_TQENTRY_
 #undef TAILQ_ENTRY
 #endif

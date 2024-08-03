@@ -31,6 +31,7 @@
 
     Obsolete/deprecated functions from tag.h; provided only for backwards
     compatibility.
+    tag.h中的过时/弃用函数；仅提供向后兼容性。
  */
 
 /**

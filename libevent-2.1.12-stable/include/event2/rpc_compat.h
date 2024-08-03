@@ -31,6 +31,7 @@
 
   Deprecated versions of the functions in rpc.h: provided only for
   backwards compatibility.
+  rpc.h中函数的弃用版本：仅为向后兼容性而提供。
 
  */
 

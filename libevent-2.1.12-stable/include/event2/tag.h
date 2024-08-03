@@ -30,6 +30,7 @@
 /** @file event2/tag.h
 
   Helper functions for reading and writing tagged data onto buffers.
+  用于将标记数据读取和写入缓冲区的辅助函数。
 
  */
 
@@ -56,6 +57,7 @@ struct evbuffer;
  * Marshaling tagged data - We assume that all tags are inserted in their
  * numeric order - so that unknown tags will always be higher than the
  * known ones - and we can just ignore the end of an event buffer.
+ * 对标记数据进行编组——我们假设所有标记都是按数字顺序插入的——这样未知标记总是高于已知标记——我们可以忽略事件缓冲区的结束。
  */
 
 EVENT2_EXPORT_SYMBOL
@@ -63,10 +65,11 @@ void evtag_init(void);
 
 /**
    Unmarshals the header and returns the length of the payload
+   解压缩标头并返回有效载荷的长度
 
-   @param evbuf the buffer from which to unmarshal data
-   @param ptag a pointer in which the tag id is being stored
-   @returns -1 on failure or the number of bytes in the remaining payload.
+   @param evbuf the buffer from which to unmarshal data 用于解组数据的缓冲区
+   @param ptag a pointer in which the tag id is being stored    存储标签id的指针
+   @returns -1 on failure or the number of bytes in the remaining payload.  故障或剩余有效载荷中的字节数。
 */
 EVENT2_EXPORT_SYMBOL
 int evtag_unmarshal_header(struct evbuffer *evbuf, ev_uint32_t *ptag);
@@ -80,13 +83,15 @@ void evtag_marshal_buffer(struct evbuffer *evbuf, ev_uint32_t tag,
 
 /**
   Encode an integer and store it in an evbuffer.
+  对整数进行编码并将其存储在evbuffer中。
 
   We encode integers by nybbles; the first nibble contains the number
   of significant nibbles - 1;  this allows us to encode up to 64-bit
   integers.  This function is byte-order independent.
+  我们用nybbles对整数进行编码；第一个半字节包含有效半字节的数量-1；这允许我们编码多达64位整数。此函数与字节顺序无关。
 
-  @param evbuf evbuffer to store the encoded number
-  @param number a 32-bit integer
+  @param evbuf evbuffer to store the encoded number evbuffer用于存储编码后的数字
+  @param number a 32-bit integer    32位整数
  */
 EVENT2_EXPORT_SYMBOL
 void evtag_encode_int(struct evbuffer *evbuf, ev_uint32_t number);

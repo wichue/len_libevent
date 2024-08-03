@@ -29,9 +29,11 @@
 /** @file evutil.h
 
   Utility and compatibility functions for Libevent.
+  Libevent的实用程序和兼容性功能。
 
   The <evutil.h> header is deprecated in Libevent 2.0 and later; please
   use <event2/util.h> instead.
+  在Libevent 2.0及更高版本中，<evutil.h>标头已被弃用；请改用<event2/util.h>。
 */
 
 #include <event2/util.h>
