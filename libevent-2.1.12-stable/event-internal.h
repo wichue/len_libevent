@@ -207,19 +207,19 @@ struct event_once {
 
 struct event_base {
 	/** Function pointers and other data to describe this event_base's
-	 * backend. */
+	 * backend. 函数指针和其他数据，用于描述此事件库的后端。 */
 	const struct eventop *evsel;
 	/** Pointer to backend-specific data. */
 	void *evbase;
 
 	/** List of changes to tell backend about at next dispatch.  Only used
-	 * by the O(1) backends. */
+	 * by the O(1) backends.	在下次调度时告知后端的更改列表。仅用于O（1）后端。 */
 	struct event_changelist changelist;
 
 	/** Function pointers used to describe the backend that this event_base
-	 * uses for signals */
+	 * uses for signals	用于描述此事件库用于信号的后端的函数指针 */
 	const struct eventop *evsigsel;
-	/** Data to implement the common signal handler code. */
+	/** Data to implement the common signal handler code.	实现公共信号处理程序代码的数据。 */
 	struct evsig_info sig;
 
 	/** Number of virtual events */

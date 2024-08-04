@@ -2,14 +2,18 @@
 学习C语言网络库libevent-2.1.12。
 
 # 编译，CMake (Unix)
-`
+```
 mkdir build && cd build
+
 cmake ..     # Default to Unix Makefiles.
+
 make
+
 make verify  # (optional)
-`
+```
 
 # 头文件功能
+```
 include/event2/buffer_compat.h
 buffer.h 中的过时和不用的版本：仅提供向后兼容。
 
@@ -99,3 +103,4 @@ include/evrpc.h
 
 include/evutil.h
 在Libevent 2.0及更高版本中，<evutil.h>标头已被弃用；请改用<event2/util.h>。
+```

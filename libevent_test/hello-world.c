@@ -88,6 +88,7 @@ main(int argc, char **argv)
 	return 0;
 }
 //有tcp链接接入时执行的回调
+//接口定义在(include/event2/bufferevent.h)
 static void
 listener_cb(struct evconnlistener *listener, evutil_socket_t fd,
     struct sockaddr *sa, int socklen, void *user_data)
@@ -129,7 +130,7 @@ conn_eventcb(struct bufferevent *bev, short events, void *user_data)
 		    strerror(errno));/*XXX win32*/
 	}
 	/* None of the other events can happen here, since we haven't enabled
-	 * timeouts */
+	 * timeouts	其他事件都不会在这里发生，因为我们没有启用超时 */
 	bufferevent_free(bev);//释放分配与缓冲器结构相关联的存储空间。
 }
 //监听到某个信号时执行的回调(SIGINT)
